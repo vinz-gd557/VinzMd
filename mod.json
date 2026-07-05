@@ -1,0 +1,16 @@
+{
+    "geode": "3.9.0",
+    "gd": "*",
+    "version": "1.0.0",
+    "id": "vinz.novaclient_gd",
+    "name": "NovaClient GD",
+    "developer": "Vinz",
+    "description": "A multi-feature client for Geometry Dash: noclip, hitboxes, instant restart, and a frame-accurate macro/bot record & replay system.",
+    "repository": "https://github.com/Vinz/NovaClientGD",
+    "tags": [
+        "gameplay",
+        "utility",
+        "cheats"
+    ],
+    "dependencies": []
+}

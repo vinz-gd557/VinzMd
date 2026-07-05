@@ -1,0 +1,74 @@
+name: Build
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  build:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: Windows
+            os: windows-latest
+          - name: macOS
+            os: macos-latest
+          - name: Android32
+            os: ubuntu-latest
+            target: Android32
+          - name: Android64
+            os: ubuntu-latest
+            target: Android64
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Note: the fmt/consteval Android NDK build failure
+      # (fmtlib/fmt#4264) is handled in CMakeLists.txt via the Geode SDK's
+      # own built-in GEODE_DISABLE_FMT_CONSTEVAL option, so no special
+      # per-platform steps are needed here.
+      - name: Build Geode mod
+        id: build
+        uses: geode-sdk/build-geode-mod@main
+        with:
+          target: ${{ matrix.config.target }}
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NovaClientGD-${{ matrix.config.name }}
+          path: ${{ steps.build.outputs.build-output }}
+
+  combine:
+    name: Combine platform outputs
+    runs-on: ubuntu-latest
+    needs: ['build']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Combine outputs into a single .geode package
+        id: combine
+        uses: geode-sdk/build-geode-mod@main
+        with:
+          combine: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload combined .geode package
+        uses: actions/upload-artifact@v4
+        with:
+          name: NovaClientGD.geode
+          path: ${{ steps.combine.outputs.build-output }}

@@ -1,0 +1,11 @@
+build/
+build-*/
+out/
+.vs/
+.vscode/
+.idea/
+CMakeFiles/
+CMakeCache.txt
+*.geode
+.DS_Store
+Thumbs.db
