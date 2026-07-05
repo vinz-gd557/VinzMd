@@ -1,6 +1,9 @@
 {
-    "geode": "3.9.0",
-    "gd": "*",
+    "geode": "5.7.1",
+    "gd": {
+        "win": "2.2081",
+        "android": "2.2081"
+    },
     "version": "1.0.0",
     "id": "vinz.novaclient_gd",
     "name": "NovaClient GD",
