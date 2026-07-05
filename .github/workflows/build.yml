@@ -1,4 +1,4 @@
-name: Build
+Name: Build
 
 on:
   push:
@@ -34,15 +34,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Note: the fmt/consteval Android NDK build failure
-      # (fmtlib/fmt#4264) is handled in CMakeLists.txt via the Geode SDK's
-      # own built-in GEODE_DISABLE_FMT_CONSTEVAL option, so no special
-      # per-platform steps are needed here.
       - name: Build Geode mod
         id: build
         uses: geode-sdk/build-geode-mod@main
         with:
           target: ${{ matrix.config.target }}
+          sdk: v5.7.1
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
@@ -64,6 +61,7 @@ jobs:
         uses: geode-sdk/build-geode-mod@main
         with:
           combine: true
+          sdk: v5.7.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
