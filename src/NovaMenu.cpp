@@ -34,9 +34,9 @@ namespace {
 
 }
 
-NovaMenu* NovaMenu::create() {
+NovaMenu* NovaMenu::create(std::string const& title) {
     auto ret = new NovaMenu();
-    if (ret && ret->initAnchored(kPopupWidth, kPopupHeight)) {
+    if (ret && ret->initAnchored(kPopupWidth, kPopupHeight, title)) {
         ret->autorelease();
         return ret;
     }
@@ -44,7 +44,7 @@ NovaMenu* NovaMenu::create() {
     return nullptr;
 }
 
-bool NovaMenu::setup() {
+bool NovaMenu::setup(std::string const& value) {
     this->setTitle("NovaClient GD");
 
     // ----------------------------------------------------------------
@@ -245,17 +245,17 @@ void NovaMenu::onClearMacro(CCObject*) {
 
 void NovaMenu::onSaveMacro(CCObject*) {
     bool ok = BotSystem::get().saveToFile("macro");
-    Notification::create(
+    geode::Notification::create(
         ok ? "Nova Bot: Macro saved" : "Nova Bot: Failed to save macro",
-        ok ? NotificationIcon::Success : NotificationIcon::Error
+        ok ? geode::NotificationIcon::Success : geode::NotificationIcon::Error
     )->show();
 }
 
 void NovaMenu::onLoadMacro(CCObject*) {
     bool ok = BotSystem::get().loadFromFile("macro");
-    Notification::create(
+    geode::Notification::create(
         ok ? "Nova Bot: Macro loaded" : "Nova Bot: Failed to load macro",
-        ok ? NotificationIcon::Success : NotificationIcon::Error
+        ok ? geode::NotificationIcon::Success : geode::NotificationIcon::Error
     )->show();
     this->refreshBotStatus();
 }

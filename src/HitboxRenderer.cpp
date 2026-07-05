@@ -56,7 +56,8 @@ void HitboxRenderer::update(PlayLayer* pl) {
         drawHitboxRect(node, pl->m_player1->getObjectRect(), ccc4f(0.f, 1.f, 0.2f, 1.f));
     }
 
-    if (pl->m_player2 && pl->m_isDualMode) {
+    // PERBAIKAN: Mengganti pl->m_isDualMode dengan pengecekan visibilitas m_player2 yang aman di Geode v5
+    if (pl->m_player2 && pl->m_player2->isVisible()) {
         drawHitboxRect(node, pl->m_player2->getObjectRect(), ccc4f(0.f, 0.6f, 1.f, 1.f));
     }
 
