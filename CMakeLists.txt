@@ -4,6 +4,12 @@ cmake_minimum_required(VERSION 3.21)
 # NovaClient GD - Geode Mod
 # ---------------------------------------------------------------------------
 
+# PAKSA MATI DI LEVEL GLOBAL SEBELUM GEODE DI-LOAD
+if(ANDROID)
+    add_compile_definitions(FMT_USE_CONSTEVAL=0)
+    add_compile_options(-DFMT_USE_CONSTEVAL=0)
+endif()
+
 if (NOT DEFINED ENV{GEODE_SDK})
     message(FATAL_ERROR "Unable to find Geode SDK! Please define the GEODE_SDK environment variable to point to your Geode SDK installation.")
 else()
@@ -27,11 +33,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 # Load Geode SDK Subdirectory
 add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
-
-# Fix compiler bug 'consteval' on Android NDK Clang releases
-if(ANDROID)
-    add_compile_definitions(FMT_USE_CONSTEVAL=0)
-endif()
 
 # Setup the Geode Mod Packaging
 setup_geode_mod(${PROJECT_NAME})
